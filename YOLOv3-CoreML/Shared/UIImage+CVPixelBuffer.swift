@@ -1,6 +1,18 @@
+
+import Foundation
+
+#if os(iOS)
+
 import UIKit
 
-extension UIImage {
+#elseif os(OSX)
+
+import AppKit
+
+#endif
+
+extension Image {
+    
   public func pixelBuffer(width: Int, height: Int) -> CVPixelBuffer? {
     var maybePixelBuffer: CVPixelBuffer?
     let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
@@ -33,9 +45,19 @@ extension UIImage {
     context.translateBy(x: 0, y: CGFloat(height))
     context.scaleBy(x: 1, y: -1)
 
+    #if os(iOS)
+    
     UIGraphicsPushContext(context)
+    
+    #endif
+    
     self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+
+    #if os(iOS)
+
     UIGraphicsPopContext()
+
+    #endif 
     CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
 
     return pixelBuffer

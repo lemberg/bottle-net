@@ -1,23 +1,33 @@
 import Foundation
+
+#if os(iOS)
+
 import UIKit
+
+#elseif os(OSX)
+
+import AppKit
+
+#endif
 
 class BoundingBox {
   let shapeLayer: CAShapeLayer
   let textLayer: CATextLayer
 
   init() {
+    
     shapeLayer = CAShapeLayer()
-    shapeLayer.fillColor = UIColor.clear.cgColor
+    shapeLayer.fillColor = Color.clear.cgColor
     shapeLayer.lineWidth = 4
     shapeLayer.isHidden = true
 
     textLayer = CATextLayer()
-    textLayer.foregroundColor = UIColor.black.cgColor
+    textLayer.foregroundColor = Color.black.cgColor
     textLayer.isHidden = true
-    textLayer.contentsScale = UIScreen.main.scale
+    textLayer.contentsScale = screenScale
     textLayer.fontSize = 14
-    textLayer.font = UIFont(name: "Avenir", size: textLayer.fontSize)
-    textLayer.alignmentMode = kCAAlignmentCenter
+    textLayer.font = Font(name: "Avenir", size: textLayer.fontSize)
+    textLayer.alignmentMode = CATextLayerAlignmentMode.center
   }
 
   func addToLayer(_ parent: CALayer) {
@@ -25,10 +35,10 @@ class BoundingBox {
     parent.addSublayer(textLayer)
   }
 
-  func show(frame: CGRect, label: String, color: UIColor) {
+  func show(frame: CGRect, label: String, color: Color) {
     CATransaction.setDisableActions(true)
 
-    let path = UIBezierPath(rect: frame)
+    let path = BezierPath(rect: frame)
     shapeLayer.path = path.cgPath
     shapeLayer.strokeColor = color.cgColor
     shapeLayer.isHidden = false
@@ -38,7 +48,7 @@ class BoundingBox {
     textLayer.isHidden = false
 
     let attributes = [
-      NSAttributedStringKey.font: textLayer.font as Any
+      NSAttributedString.Key.font: textLayer.font as Any
     ]
 
     let textRect = label.boundingRect(with: CGSize(width: 400, height: 100),
