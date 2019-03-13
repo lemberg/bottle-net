@@ -18,6 +18,16 @@
 		7BC25FA71EF1B7D1002ECBBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BC25FA51EF1B7D1002ECBBA /* Main.storyboard */; };
 		7BC25FA91EF1B7D1002ECBBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BC25FA81EF1B7D1002ECBBA /* Assets.xcassets */; };
 		7BC25FB41EF1CEB0002ECBBA /* YOLOv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */; };
+		CE79651522391156001CA4CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79651422391156001CA4CE /* AppDelegate.swift */; };
+		CE79651722391156001CA4CE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79651622391156001CA4CE /* ViewController.swift */; };
+		CE79651922391157001CA4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE79651822391157001CA4CE /* Assets.xcassets */; };
+		CE79651C22391157001CA4CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE79651A22391157001CA4CE /* Main.storyboard */; };
+		CE79652322391229001CA4CE /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372CB264209C9B2600F501E3 /* Helpers.swift */; };
+		CE79652422391254001CA4CE /* UIImage+CVPixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA1C6D11EF2827500BB25EF /* UIImage+CVPixelBuffer.swift */; };
+		CE79652522391291001CA4CE /* YOLOv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */; };
+		CE79652622391294001CA4CE /* CVPixelBuffer+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA1C6D91EF2B30200BB25EF /* CVPixelBuffer+Helpers.swift */; };
+		CE79652722391296001CA4CE /* YOLO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA1C6D71EF2871600BB25EF /* YOLO.swift */; };
+		CE7965282239129F001CA4CE /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372CB263209C9B2600F501E3 /* BoundingBox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,10 +44,24 @@
 		7BC25FAD1EF1B7D1002ECBBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3.mlmodel; sourceTree = "<group>"; };
 		7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		CE79651222391156001CA4CE /* ModelImageCropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModelImageCropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE79651422391156001CA4CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE79651622391156001CA4CE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE79651822391157001CA4CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE79651B22391157001CA4CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE79651D22391157001CA4CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE79651E22391157001CA4CE /* ModelImageCropper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ModelImageCropper.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		7BC25F9B1EF1B7D1002ECBBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE79650F22391156001CA4CE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -50,7 +74,9 @@
 		7BC25F951EF1B7D1002ECBBA = {
 			isa = PBXGroup;
 			children = (
-				7BC25FA01EF1B7D1002ECBBA /* YOLOv3-CoreML */,
+				CE7965222239119D001CA4CE /* Shared */,
+				7BC25FA01EF1B7D1002ECBBA /* BottleNetDemo */,
+				CE79651322391156001CA4CE /* ModelImageCropper */,
 				7BC25F9F1EF1B7D1002ECBBA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,27 +85,48 @@
 			isa = PBXGroup;
 			children = (
 				7BC25F9E1EF1B7D1002ECBBA /* YOLOv3-CoreML.app */,
+				CE79651222391156001CA4CE /* ModelImageCropper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7BC25FA01EF1B7D1002ECBBA /* YOLOv3-CoreML */ = {
+		7BC25FA01EF1B7D1002ECBBA /* BottleNetDemo */ = {
+			isa = PBXGroup;
+			children = (
+				372CB261209C9B0F00F501E3 /* AppDelegate.swift */,
+				7BC25FA81EF1B7D1002ECBBA /* Assets.xcassets */,
+				7BC25FAD1EF1B7D1002ECBBA /* Info.plist */,
+				7BC25FA51EF1B7D1002ECBBA /* Main.storyboard */,
+				7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */,
+				7BC25FA31EF1B7D1002ECBBA /* ViewController.swift */,
+			);
+			path = BottleNetDemo;
+			sourceTree = "<group>";
+		};
+		CE79651322391156001CA4CE /* ModelImageCropper */ = {
+			isa = PBXGroup;
+			children = (
+				CE79651422391156001CA4CE /* AppDelegate.swift */,
+				CE79651622391156001CA4CE /* ViewController.swift */,
+				CE79651822391157001CA4CE /* Assets.xcassets */,
+				CE79651A22391157001CA4CE /* Main.storyboard */,
+				CE79651D22391157001CA4CE /* Info.plist */,
+				CE79651E22391157001CA4CE /* ModelImageCropper.entitlements */,
+			);
+			path = ModelImageCropper;
+			sourceTree = "<group>";
+		};
+		CE7965222239119D001CA4CE /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				372CB263209C9B2600F501E3 /* BoundingBox.swift */,
 				372CB264209C9B2600F501E3 /* Helpers.swift */,
-				372CB261209C9B0F00F501E3 /* AppDelegate.swift */,
-				7BC25FA81EF1B7D1002ECBBA /* Assets.xcassets */,
-				7BA1C6D91EF2B30200BB25EF /* CVPixelBuffer+Helpers.swift */,
-				7BC25FAD1EF1B7D1002ECBBA /* Info.plist */,
-				7BC25FA51EF1B7D1002ECBBA /* Main.storyboard */,
-				7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */,
 				7BA1C6D11EF2827500BB25EF /* UIImage+CVPixelBuffer.swift */,
-				7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */,
-				7BC25FA31EF1B7D1002ECBBA /* ViewController.swift */,
 				7BA1C6D71EF2871600BB25EF /* YOLO.swift */,
+				7BA1C6D91EF2B30200BB25EF /* CVPixelBuffer+Helpers.swift */,
+				7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */,
 			);
-			path = "YOLOv3-CoreML";
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,18 +149,39 @@
 			productReference = 7BC25F9E1EF1B7D1002ECBBA /* YOLOv3-CoreML.app */;
 			productType = "com.apple.product-type.application";
 		};
+		CE79651122391156001CA4CE /* ModelImageCropper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE79651F22391157001CA4CE /* Build configuration list for PBXNativeTarget "ModelImageCropper" */;
+			buildPhases = (
+				CE79650E22391156001CA4CE /* Sources */,
+				CE79650F22391156001CA4CE /* Frameworks */,
+				CE79651022391156001CA4CE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ModelImageCropper;
+			productName = ModelImageCropper;
+			productReference = CE79651222391156001CA4CE /* ModelImageCropper.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		7BC25F961EF1B7D1002ECBBA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = MachineThink;
 				TargetAttributes = {
 					7BC25F9D1EF1B7D1002ECBBA = {
 						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
+					CE79651122391156001CA4CE = {
+						CreatedOnToolsVersion = 10.1;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -132,6 +200,7 @@
 			projectRoot = "";
 			targets = (
 				7BC25F9D1EF1B7D1002ECBBA /* YOLOv3-CoreML */,
+				CE79651122391156001CA4CE /* ModelImageCropper */,
 			);
 		};
 /* End PBXProject section */
@@ -143,6 +212,15 @@
 			files = (
 				7BC25FA91EF1B7D1002ECBBA /* Assets.xcassets in Resources */,
 				7BC25FA71EF1B7D1002ECBBA /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE79651022391156001CA4CE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE79651922391157001CA4CE /* Assets.xcassets in Resources */,
+				CE79651C22391157001CA4CE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +243,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE79650E22391156001CA4CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE79652522391291001CA4CE /* YOLOv3.mlmodel in Sources */,
+				CE79651722391156001CA4CE /* ViewController.swift in Sources */,
+				CE79652322391229001CA4CE /* Helpers.swift in Sources */,
+				CE7965282239129F001CA4CE /* BoundingBox.swift in Sources */,
+				CE79652622391294001CA4CE /* CVPixelBuffer+Helpers.swift in Sources */,
+				CE79651522391156001CA4CE /* AppDelegate.swift in Sources */,
+				CE79652722391296001CA4CE /* YOLO.swift in Sources */,
+				CE79652422391254001CA4CE /* UIImage+CVPixelBuffer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -172,6 +265,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				7BC25FA61EF1B7D1002ECBBA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CE79651A22391157001CA4CE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE79651B22391157001CA4CE /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -291,7 +392,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J7LBYY3B34;
 				GCC_OPTIMIZATION_LEVEL = s;
-				INFOPLIST_FILE = "YOLOv3-CoreML/Info.plist";
+				INFOPLIST_FILE = BottleNetDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.uk.lembergYOLOv3-CoreML";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -310,13 +411,64 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J7LBYY3B34;
-				INFOPLIST_FILE = "YOLOv3-CoreML/Info.plist";
+				INFOPLIST_FILE = BottleNetDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.uk.lembergYOLOv3-CoreML";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CE79652022391157001CA4CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_ENTITLEMENTS = ModelImageCropper/ModelImageCropper.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = J7LBYY3B34;
+				INFOPLIST_FILE = ModelImageCropper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = lemberg.co.uk.ModelImageCropper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		CE79652122391157001CA4CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_ENTITLEMENTS = ModelImageCropper/ModelImageCropper.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = J7LBYY3B34;
+				INFOPLIST_FILE = ModelImageCropper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = lemberg.co.uk.ModelImageCropper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -337,6 +489,15 @@
 			buildConfigurations = (
 				7BC25FB11EF1B7D1002ECBBA /* Debug */,
 				7BC25FB21EF1B7D1002ECBBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE79651F22391157001CA4CE /* Build configuration list for PBXNativeTarget "ModelImageCropper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE79652022391157001CA4CE /* Debug */,
+				CE79652122391157001CA4CE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
