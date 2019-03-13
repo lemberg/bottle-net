@@ -1,8 +1,6 @@
 import UIKit
 import Vision
 import AVFoundation
-import CoreMedia
-import VideoToolbox
 
 class ViewController: UIViewController {
   @IBOutlet weak var videoPreview: UIView!
