@@ -79,8 +79,13 @@ class DetectObjects {
         //                                              height: YOLO.inputHeight)
         
         // Resize the input to 416x416 and give it to our model.
-        if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer) {
-            return boundingBoxes
+        
+        
+        
+        if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer), let index = labels.index(of: "bottle") {
+            return boundingBoxes.filter({ (p) -> Bool in
+                return p.classIndex == index
+            })
         }
         return nil
     }

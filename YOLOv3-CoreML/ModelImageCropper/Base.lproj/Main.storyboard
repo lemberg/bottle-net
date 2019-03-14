@@ -706,7 +706,7 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="ModelImageCropper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="403"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fLh-uq-eeX">
@@ -719,16 +719,72 @@
                                     <action selector="selectFiles:" target="XfG-lQ-9wD" id="83y-lc-nBP"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bo4-Xu-5qj">
+                                <rect key="frame" x="20" y="366" width="105" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Processes count" id="ssI-LW-BZU">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QIx-bw-Xym">
+                                <rect key="frame" x="20" y="329" width="78" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Saves count" id="3Fc-a1-I9j">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YMk-dE-i9r">
+                                <rect key="frame" x="384" y="366" width="78" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Saves count" id="OKY-em-EVk">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w11-T7-Fpe">
+                                <rect key="frame" x="384" y="329" width="78" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Saves count" id="Qkc-vF-RLG">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W0i-xT-tpJ">
+                                <rect key="frame" x="425" y="292" width="37" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="hdx-P6-JHX">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="bo4-Xu-5qj" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="22" id="0HS-fC-aSW"/>
+                            <constraint firstAttribute="trailing" secondItem="W0i-xT-tpJ" secondAttribute="trailing" constant="20" id="54C-Tr-Ygt"/>
+                            <constraint firstItem="bo4-Xu-5qj" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="Ggd-FZ-tMq"/>
                             <constraint firstAttribute="trailing" secondItem="fLh-uq-eeX" secondAttribute="trailing" constant="20" id="IGa-F2-9lp"/>
+                            <constraint firstItem="QIx-bw-Xym" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="22" id="KBf-Yy-BAj"/>
+                            <constraint firstAttribute="trailing" secondItem="w11-T7-Fpe" secondAttribute="trailing" constant="20" id="KeF-fJ-ihg"/>
+                            <constraint firstItem="QIx-bw-Xym" firstAttribute="top" secondItem="bo4-Xu-5qj" secondAttribute="bottom" constant="20" id="MCe-5p-AuG"/>
                             <constraint firstAttribute="bottom" secondItem="fLh-uq-eeX" secondAttribute="bottom" constant="20" id="T1e-3b-et1"/>
+                            <constraint firstItem="YMk-dE-i9r" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="bbv-pD-EhE"/>
+                            <constraint firstItem="W0i-xT-tpJ" firstAttribute="top" secondItem="w11-T7-Fpe" secondAttribute="bottom" constant="20" id="cnd-NY-4yg"/>
+                            <constraint firstItem="fLh-uq-eeX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="hP8-cn-NnB"/>
+                            <constraint firstAttribute="trailing" secondItem="YMk-dE-i9r" secondAttribute="trailing" constant="20" id="kTV-O6-spD"/>
+                            <constraint firstItem="w11-T7-Fpe" firstAttribute="top" secondItem="YMk-dE-i9r" secondAttribute="bottom" constant="20" id="nDW-PT-72H"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="processCount" destination="YMk-dE-i9r" id="h4W-o5-lH7"/>
+                        <outlet property="savesCount" destination="w11-T7-Fpe" id="fIi-0e-weY"/>
+                        <outlet property="statusLabel" destination="W0i-xT-tpJ" id="z3k-Ue-bFS"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="790.5"/>
         </scene>
     </scenes>
 </document>
