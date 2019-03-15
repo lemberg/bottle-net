@@ -6,7 +6,15 @@
 //  Copyright © 2019 Lemberg Solutions. All rights reserved.
 //
 
+#if os(iOS)
+import UIKit
+
+#elseif os(OSX)
+
 import AppKit
+
+#endif
+
 import Vision
 import AVFoundation
 
@@ -81,7 +89,7 @@ class DetectObjects {
         // Resize the input to 416x416 and give it to our model.
         
         
-        
+//        return try? yolo.predict(image: resizedPixelBuffer)
         if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer), let index = labels.index(of: "bottle") {
             return boundingBoxes.filter({ (p) -> Bool in
                 return p.classIndex == index

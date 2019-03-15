@@ -32,17 +32,22 @@ class YOLO {
       return []
     }
   }
-
-  public func computeBoundingBoxes(features: [MLMultiArray]) -> [Prediction] {
-    assert(features[0].count == 255*13*13)
-    assert(features[1].count == 255*26*26)
-    assert(features[2].count == 255*52*52)
-
-    var predictions = [Prediction]()
-
+    
+    let one = 255*13*13
+    let two = 255*26*26
+    let three = 255*52*52
+    let gridHeight = [13, 26, 52]
+    let gridWidth = [13, 26, 52]
     let blockSize: Float = 32
     let boxesPerCell = 3
     let numClasses = 80
+    
+  public func computeBoundingBoxes(features: [MLMultiArray]) -> [Prediction] {
+    assert(features[0].count == one)
+    assert(features[1].count == two)
+    assert(features[2].count == three)
+
+    var predictions = [Prediction]()
 
     // The 416x416 image is divided into a 13x13 grid. Each of these grid cells
     // will predict 5 bounding boxes (boxesPerCell). A bounding box consists of
@@ -56,8 +61,7 @@ class YOLO {
     // NOTE: It turns out that accessing the elements in the multi-array as
     // `features[[channel, cy, cx] as [NSNumber]].floatValue` is kinda slow.
     // It's much faster to use direct memory access to the features.
-    var gridHeight = [13, 26, 52]
-    var gridWidth = [13, 26, 52]
+
     
     var featurePointer = UnsafeMutablePointer<Double>(OpaquePointer(features[0].dataPointer))
     var channelStride = features[0].strides[0].intValue

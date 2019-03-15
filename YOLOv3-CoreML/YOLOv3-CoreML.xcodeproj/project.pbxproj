@@ -33,6 +33,7 @@
 		CE7965282239129F001CA4CE /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372CB263209C9B2600F501E3 /* BoundingBox.swift */; };
 		CE79652A223914EC001CA4CE /* OSDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE796529223914EC001CA4CE /* OSDefines.swift */; };
 		CE79652B22391605001CA4CE /* OSDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE796529223914EC001CA4CE /* OSDefines.swift */; };
+		CEE3B876223BD9960090F787 /* DetectObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02CFA6223936FA00F32E67 /* DetectObjects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -249,6 +250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE79652A223914EC001CA4CE /* OSDefines.swift in Sources */,
+				CEE3B876223BD9960090F787 /* DetectObjects.swift in Sources */,
 				7BA1C6D01EF27DA000BB25EF /* VideoCapture.swift in Sources */,
 				7BA1C6DA1EF2B30200BB25EF /* CVPixelBuffer+Helpers.swift in Sources */,
 				7BC25FB41EF1CEB0002ECBBA /* YOLOv3.mlmodel in Sources */,

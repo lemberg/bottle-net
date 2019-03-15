@@ -3,12 +3,15 @@ import Vision
 import AVFoundation
 
 class ViewController: UIViewController {
+    
   @IBOutlet weak var videoPreview: UIView!
   @IBOutlet weak var timeLabel: UILabel!
   @IBOutlet weak var debugImageView: UIImageView!
 
-  let yolo = YOLO()
-
+//    var yolo:YOLO!
+    var bottleNet:resnet50!
+    var bottleDetector:DetectObjects!
+    
   var videoCapture: VideoCapture!
   var request: VNCoreMLRequest!
   var startTimes: [CFTimeInterval] = []
@@ -25,7 +28,10 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
+//    yolo = YOLO()
+    bottleNet = resnet50()
+    bottleDetector = DetectObjects()
+    
     timeLabel.text = ""
 
     setUpBoundingBoxes()
@@ -70,17 +76,17 @@ class ViewController: UIViewController {
   }
 
   func setUpVision() {
-    guard let visionModel = try? VNCoreMLModel(for: yolo.model.model) else {
-      print("Error: could not create Vision model")
-      return
-    }
-
-    request = VNCoreMLRequest(model: visionModel, completionHandler: visionRequestDidComplete)
-
-    // NOTE: If you choose another crop/scale option, then you must also
-    // change how the BoundingBox objects get scaled when they are drawn.
-    // Currently they assume the full input image is used.
-    request.imageCropAndScaleOption = .scaleFill
+//    guard let visionModel = try? VNCoreMLModel(for: yolo.model.model) else {
+//      print("Error: could not create Vision model")
+//      return
+//    }
+//
+//    request = VNCoreMLRequest(model: visionModel, completionHandler: visionRequestDidComplete)
+//
+//    // NOTE: If you choose another crop/scale option, then you must also
+//    // change how the BoundingBox objects get scaled when they are drawn.
+//    // Currently they assume the full input image is used.
+//    request.imageCropAndScaleOption = .scaleFill
   }
 
   func setUpCamera() {
@@ -129,29 +135,75 @@ class ViewController: UIViewController {
     }
   }
 
+    typealias BottleResultPair = (YOLO.Prediction, String)
+    
   func predict(pixelBuffer: CVPixelBuffer) {
-    // Measure how long it takes to predict a single video frame.
+    
+//    // Measure how long it takes to predict a single video frame.
     let startTime = CACurrentMediaTime()
-
-    // Resize the input with Core Image to 416x416.
-    guard let resizedPixelBuffer = resizedPixelBuffer else { return }
-    let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-    let sx = CGFloat(YOLO.inputWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
-    let sy = CGFloat(YOLO.inputHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
-    let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
-    let scaledImage = ciImage.transformed(by: scaleTransform)
-    ciContext.render(scaledImage, to: resizedPixelBuffer)
-
-    // This is an alternative way to resize the image (using vImage):
-    //if let resizedPixelBuffer = resizePixelBuffer(pixelBuffer,
-    //                                              width: YOLO.inputWidth,
-    //                                              height: YOLO.inputHeight)
-
-    // Resize the input to 416x416 and give it to our model.
-    if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer) {
-      let elapsed = CACurrentMediaTime() - startTime
-      showOnMainThread(boundingBoxes, elapsed)
+    
+    guard let resizedPixelBuffer = resizePixelBuffer(pixelBuffer,
+                                                     cropX: 0,
+                                                     cropY: 0,
+                                                     cropWidth: CVPixelBufferGetWidth(pixelBuffer),
+                                                     cropHeight: CVPixelBufferGetHeight(pixelBuffer),
+                                                     scaleWidth: 416,
+                                                     scaleHeight: 416) else {
+                                                        semaphore.signal()
+                                                        return
+                                                        
     }
+    
+    let bottleFrames = bottleDetector.predict(pixelBuffer)
+
+    var resultBottles = [BottleResultPair]()
+    
+    bottleFrames?.forEach({ (prediction) in
+        
+        guard let resized = resizePixelBuffer(resizedPixelBuffer,
+                                              cropX: Int(prediction.rect.origin.x),
+                                              cropY: Int(prediction.rect.origin.y),
+                                              cropWidth: Int(prediction.rect.width),
+                                              cropHeight: Int(prediction.rect.height),
+                                              scaleWidth: 64,
+                                              scaleHeight: 64) else { return }
+        #if DEBUG
+        
+        let ciImage = CIImage(cvPixelBuffer: resized)
+        
+        #endif
+        
+        if let wthatTheBottle = try? bottleNet.prediction(input1: resized) {
+            for value in 0..<wthatTheBottle.output1.count {
+                guard let confidence = wthatTheBottle.output1[value] as? Double, confidence > 0.8 else { continue }
+                let title = classifierLabes[value]
+                resultBottles.append((prediction, title))
+            }
+        }
+    })
+//
+//    // Resize the input with Core Image to 416x416.
+//    guard let resizedPixelBuffer = resizedPixelBuffer else { return }
+//    let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+//    let sx = CGFloat(YOLO.inputWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
+//    let sy = CGFloat(YOLO.inputHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
+//    let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
+//    let scaledImage = ciImage.transformed(by: scaleTransform)
+//    ciContext.render(scaledImage, to: resizedPixelBuffer)
+//
+//    // This is an alternative way to resize the image (using vImage):
+//    //if let resizedPixelBuffer = resizePixelBuffer(pixelBuffer,
+//    //                                              width: YOLO.inputWidth,
+//    //                                              height: YOLO.inputHeight)
+//
+//    // Resize the input to 416x416 and give it to our model.
+//    if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer) {
+//        let bottleBoxes =
+//      showOnMainThread(boundingBoxes, elapsed)
+//    }
+//          self.semaphore.signal()
+    let elapsed = CACurrentMediaTime() - startTime
+    showOnMainThread(resultBottles, elapsed)
   }
 
   func predictUsingVision(pixelBuffer: CVPixelBuffer) {
@@ -166,16 +218,16 @@ class ViewController: UIViewController {
   }
 
   func visionRequestDidComplete(request: VNRequest, error: Error?) {
-    if let observations = request.results as? [VNCoreMLFeatureValueObservation],
-       let features = observations.first?.featureValue.multiArrayValue {
-
-        let boundingBoxes = yolo.computeBoundingBoxes(features: [features, features, features])
-      let elapsed = CACurrentMediaTime() - startTimes.remove(at: 0)
-      showOnMainThread(boundingBoxes, elapsed)
-    }
+//    if let observations = request.results as? [VNCoreMLFeatureValueObservation],
+//       let features = observations.first?.featureValue.multiArrayValue {
+//
+//        let boundingBoxes = yolo.computeBoundingBoxes(features: [features, features, features])
+//      let elapsed = CACurrentMediaTime() - startTimes.remove(at: 0)
+//      showOnMainThread(boundingBoxes, elapsed)
+//    }
   }
 
-  func showOnMainThread(_ boundingBoxes: [YOLO.Prediction], _ elapsed: CFTimeInterval) {
+  func showOnMainThread(_ boundingBoxes: [BottleResultPair], _ elapsed: CFTimeInterval) {
     DispatchQueue.main.async {
       // For debugging, to make sure the resized CVPixelBuffer is correct.
       //var debugImage: CGImage?
@@ -203,7 +255,7 @@ class ViewController: UIViewController {
     return currentFPSDelivered
   }
 
-  func show(predictions: [YOLO.Prediction]) {
+  func show(predictions: [BottleResultPair]) {
     for i in 0..<boundingBoxes.count {
       if i < predictions.count {
         let prediction = predictions[i]
@@ -220,7 +272,7 @@ class ViewController: UIViewController {
         let top = (view.bounds.height - height) / 2
 
         // Translate and scale the rectangle to our own coordinate system.
-        var rect = prediction.rect
+        var rect = prediction.0.rect
         rect.origin.x *= scaleX
         rect.origin.y *= scaleY
         rect.origin.y += top
@@ -228,8 +280,8 @@ class ViewController: UIViewController {
         rect.size.height *= scaleY
 
         // Show the bounding box.
-        let label = String(format: "%@ %.1f", labels[prediction.classIndex], prediction.score * 100)
-        let color = colors[prediction.classIndex]
+        let label = prediction.1 //String(format: "%@ %.1f", labels[prediction.classIndex], prediction.score * 100)
+        let color = colors[0]
         boundingBoxes[i].show(frame: rect, label: label, color: color)
       } else {
         boundingBoxes[i].hide()
