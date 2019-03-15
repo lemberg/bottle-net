@@ -17,6 +17,8 @@ let labels = [
     "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors", "teddy bear", "hair drier", "toothbrush"
 ]
 
+let classifierLabes = ["Coca-Cola", "Grimbergen", "Lvivske", "Pepsi", "Staropramen"]
+
 let anchors: [[Float]] = [[116,90,  156,198,  373,326], [30,61,  62,45,  59,119], [10,13,  16,30,  33,23]]
 
 /**

@@ -18,6 +18,8 @@
 		7BC25FA71EF1B7D1002ECBBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BC25FA51EF1B7D1002ECBBA /* Main.storyboard */; };
 		7BC25FA91EF1B7D1002ECBBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BC25FA81EF1B7D1002ECBBA /* Assets.xcassets */; };
 		7BC25FB41EF1CEB0002ECBBA /* YOLOv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */; };
+		8386D19A223BB2D7007072C9 /* resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8386D199223BB2D7007072C9 /* resnet50.mlmodel */; };
+		8386D19B223BB2D7007072C9 /* resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8386D199223BB2D7007072C9 /* resnet50.mlmodel */; };
 		CE02CFA82239378400F32E67 /* DetectObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02CFA6223936FA00F32E67 /* DetectObjects.swift */; };
 		CE79651522391156001CA4CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79651422391156001CA4CE /* AppDelegate.swift */; };
 		CE79651722391156001CA4CE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79651622391156001CA4CE /* ViewController.swift */; };
@@ -47,6 +49,7 @@
 		7BC25FAD1EF1B7D1002ECBBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3.mlmodel; sourceTree = "<group>"; };
 		7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		8386D199223BB2D7007072C9 /* resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = resnet50.mlmodel; sourceTree = "<group>"; };
 		CE02CFA6223936FA00F32E67 /* DetectObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectObjects.swift; sourceTree = "<group>"; };
 		CE79651222391156001CA4CE /* ModelImageCropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModelImageCropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE79651422391156001CA4CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +127,7 @@
 		CE7965222239119D001CA4CE /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				8386D199223BB2D7007072C9 /* resnet50.mlmodel */,
 				372CB263209C9B2600F501E3 /* BoundingBox.swift */,
 				372CB264209C9B2600F501E3 /* Helpers.swift */,
 				7BA1C6D11EF2827500BB25EF /* UIImage+CVPixelBuffer.swift */,
@@ -250,6 +254,7 @@
 				7BC25FB41EF1CEB0002ECBBA /* YOLOv3.mlmodel in Sources */,
 				372CB265209C9B2600F501E3 /* BoundingBox.swift in Sources */,
 				372CB266209C9B2600F501E3 /* Helpers.swift in Sources */,
+				8386D19A223BB2D7007072C9 /* resnet50.mlmodel in Sources */,
 				372CB262209C9B0F00F501E3 /* AppDelegate.swift in Sources */,
 				7BA1C6D21EF2827800BB25EF /* UIImage+CVPixelBuffer.swift in Sources */,
 				7BC25FA41EF1B7D1002ECBBA /* ViewController.swift in Sources */,
@@ -267,6 +272,7 @@
 				CE02CFA82239378400F32E67 /* DetectObjects.swift in Sources */,
 				CE7965282239129F001CA4CE /* BoundingBox.swift in Sources */,
 				CE79652B22391605001CA4CE /* OSDefines.swift in Sources */,
+				8386D19B223BB2D7007072C9 /* resnet50.mlmodel in Sources */,
 				CE79652622391294001CA4CE /* CVPixelBuffer+Helpers.swift in Sources */,
 				CE79651522391156001CA4CE /* AppDelegate.swift in Sources */,
 				CE79652722391296001CA4CE /* YOLO.swift in Sources */,
