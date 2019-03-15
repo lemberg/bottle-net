@@ -75,38 +75,13 @@ extension Image {
   }
 }
 
+#if os(iOS)
+
+#elseif os(OSX)
 
 extension Image {
     
     func cutArea(at frame: CGRect) -> Image? {
-        
-//        guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil,
-//                                   pixelsWide: Int(frame.width),
-//                                   pixelsHigh: Int(frame.height),
-//                                   bitsPerSample: 8,
-//                                   samplesPerPixel: 4,
-//                                   hasAlpha: true,
-//                                   isPlanar: false,
-//                                   colorSpaceName: .deviceRGB,
-//                                   bitmapFormat: .alphaFirst,
-//                                   bytesPerRow: 0,
-//                                   bitsPerPixel: 0) else { return nil }
-//        guard let context = NSGraphicsContext(bitmapImageRep: rep) else { return nil }
-//
-//        NSGraphicsContext.saveGraphicsState()
-//        NSGraphicsContext.current = context
-//
-//        let cgContext = context.cgContext
-//
-//        cgContext.translateBy(x: 0, y: CGFloat(size.height))
-//        cgContext.scaleBy(x: 1, y: -1)
-//
-//        self.draw(in: NSRect(x: frame.origin.x, y: frame.origin.y, width: size.width, height: size.height))
-//
-//        NSGraphicsContext.restoreGraphicsState()
-//
-//        let result = NSImage(size: NSSize(width: frame.width, height: frame.height))
-//        result.addRepresentation(rep)
         
         var rect = NSRect(x: 0, y: 0, width: size.width, height: size.height)
         guard let cgRef = cgImage(forProposedRect: &rect, context: nil, hints: nil) else { return nil }
@@ -121,4 +96,27 @@ extension Image {
         let rep = NSBitmapImageRep(cgImage: cgRef)
         return rep
     }
+    
+    var jpegRepresentation: Data? {
+        self.lockFocus()
+        guard let rep = self.bitmapRep,
+            let data = rep.representation(using: .jpeg, properties: [:]) else {
+                self.unlockFocus()
+                return nil
+        }
+        
+        self.unlockFocus()
+        return data
+    }
+    
+    func scaled(to size: NSSize, using context: CIContext = CIContext()) -> Image? {
+        guard let pixelBuffer = self.pixelBuffer(width: Int(size.width), height: Int(size.height)) else { return nil }
+
+        let image = CIImage(cvPixelBuffer: pixelBuffer)
+        
+        guard let cgImage = context.createCGImage(image, from: CGRect(origin: CGPoint.zero, size: size)) else { return nil }
+        return NSImage(cgImage: cgImage, size: size)
+    }
 }
+
+#endif
