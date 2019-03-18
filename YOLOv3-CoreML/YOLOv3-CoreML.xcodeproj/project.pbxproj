@@ -34,6 +34,7 @@
 		CE79652A223914EC001CA4CE /* OSDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE796529223914EC001CA4CE /* OSDefines.swift */; };
 		CE79652B22391605001CA4CE /* OSDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE796529223914EC001CA4CE /* OSDefines.swift */; };
 		CEB55DAE223FC84E00196857 /* Resnet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB55DAD223FC84E00196857 /* Resnet.swift */; };
+		CEB55DB0223FCD2700196857 /* Resnet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB55DAD223FC84E00196857 /* Resnet.swift */; };
 		CEE3B876223BD9960090F787 /* DetectObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02CFA6223936FA00F32E67 /* DetectObjects.swift */; };
 /* End PBXBuildFile section */
 
@@ -272,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEB55DB0223FCD2700196857 /* Resnet.swift in Sources */,
 				CE79652522391291001CA4CE /* YOLOv3.mlmodel in Sources */,
 				CE79651722391156001CA4CE /* ViewController.swift in Sources */,
 				CE79652322391229001CA4CE /* Helpers.swift in Sources */,
