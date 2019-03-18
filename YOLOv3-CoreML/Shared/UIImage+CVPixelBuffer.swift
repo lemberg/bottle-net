@@ -122,9 +122,10 @@ extension Image {
         guard let pixelBuffer = self.pixelBuffer(width: Int(size.width), height: Int(size.height)) else { return nil }
         
         let radians = degrees * .pi / 180
-        let image = CIImage(cvPixelBuffer: pixelBuffer).transformed(by: CGAffineTransform(rotationAngle: radians))
+        let transform = CGAffineTransform(rotationAngle: radians)
+        let image = CIImage(cvPixelBuffer: pixelBuffer).transformed(by:transform)
         
-        guard let cgImage = context.createCGImage(image, from: CGRect(origin: CGPoint.zero, size: size)) else { return nil }
+        guard let cgImage = context.createCGImage(image, from: CGRect(origin: image.extent.origin, size: size)) else { return nil }
         
         return NSImage(cgImage: cgImage, size: size)
     }
