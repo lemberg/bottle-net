@@ -13,6 +13,10 @@ class ViewController: NSViewController {
     @IBOutlet weak var statusLabel: NSTextField!
     @IBOutlet weak var savesCount: NSTextField!
     @IBOutlet weak var processCount: NSTextField!
+    @IBOutlet weak var rotateCheckBox: NSButton!
+    @IBOutlet weak var mirrorCheckBox: NSButton!
+    @IBOutlet weak var blurCheckBox: NSButton!
+    @IBOutlet weak var reduceNoiseCheckBox: NSButton!
     
     let bottleDetector = DetectObjects()
     
@@ -151,11 +155,46 @@ class ViewController: NSViewController {
                     
                     let bottleImages = self.cropBottles(fromFileAt: imagePath)
                     for (index, image) in bottleImages.enumerated() {
-                        let resultName = "\(imageName)_cropped_\(index).\(imageExt)"
-                        let resultPath = resultsFolder.appendingPathComponent(resultName)
-                        if let resultImage = image.scaled(to: NSSize(width: 64, height: 64), using: self.context) {
-                            self.saveBottleImage(resultImage, at: resultPath)
+                        var resultName = "\(imageName)_cropped_\(index).\(imageExt)"
+                        var resultPath = resultsFolder.appendingPathComponent(resultName)
+                        guard let scaledImage = image.scaled(to: NSSize(width: 64, height: 64), using: self.context) else { return }
+                        self.saveBottleImage(scaledImage, at: resultPath)
+                        
+                        if self.rotateCheckBox.state == .on {
+                            for i in 1..<4 {
+                                let degree: CGFloat = CGFloat(90) * CGFloat(i)
+                                if let resultImage = scaledImage.rotated(for: degree, using: self.context) {
+                                    resultName = "\(imageName)_cropped_rotated_\(degree)_\(index).\(imageExt)"
+                                    resultPath = resultsFolder.appendingPathComponent(resultName)
+                                    self.saveBottleImage(resultImage, at: resultPath)
+                                }
+                            }
                         }
+                        
+                        if self.mirrorCheckBox.state == .on {
+                            if let resultImage = scaledImage.mirored(context: self.context) {
+                                resultName = "\(imageName)_cropped_mirrored_\(index).\(imageExt)"
+                                resultPath = resultsFolder.appendingPathComponent(resultName)
+                                self.saveBottleImage(resultImage, at: resultPath)
+                            }
+                        }
+                        
+                        if self.blurCheckBox.state == .on {
+                            if let resultImage = scaledImage.gaussianBlurred(context: self.context) {
+                                resultName = "\(imageName)_cropped_blurred_\(index).\(imageExt)"
+                                resultPath = resultsFolder.appendingPathComponent(resultName)
+                                self.saveBottleImage(resultImage, at: resultPath)
+                            }
+                        }
+                        
+                        if self.reduceNoiseCheckBox.state == .on {
+                            if let resultImage = scaledImage.noiseReduced(context: self.context) {
+                                resultName = "\(imageName)_cropped_reduced_noise_\(index).\(imageExt)"
+                                resultPath = resultsFolder.appendingPathComponent(resultName)
+                                self.saveBottleImage(resultImage, at: resultPath)
+                            }
+                        }
+
                     }
                 }
             }

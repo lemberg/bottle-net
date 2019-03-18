@@ -117,6 +117,51 @@ extension Image {
         guard let cgImage = context.createCGImage(image, from: CGRect(origin: CGPoint.zero, size: size)) else { return nil }
         return NSImage(cgImage: cgImage, size: size)
     }
+    
+    func rotated(for degrees: CGFloat, using context: CIContext = CIContext()) -> Image? {
+        guard let pixelBuffer = self.pixelBuffer(width: Int(size.width), height: Int(size.height)) else { return nil }
+        
+        let radians = degrees * .pi / 180
+        let image = CIImage(cvPixelBuffer: pixelBuffer).transformed(by: CGAffineTransform(rotationAngle: radians))
+        
+        guard let cgImage = context.createCGImage(image, from: CGRect(origin: CGPoint.zero, size: size)) else { return nil }
+        
+        return NSImage(cgImage: cgImage, size: size)
+    }
+    
+    func mirored(context: CIContext = CIContext()) -> Image? {
+        
+        guard let pixelBuffer = self.pixelBuffer(width: Int(size.width), height: Int(size.height)) else { return nil }
+        
+        let image = CIImage(cvPixelBuffer: pixelBuffer).oriented(.upMirrored)
+        
+        guard let cgImage = context.createCGImage(image, from: CGRect(origin: CGPoint.zero, size: size)) else { return nil }
+        
+        return NSImage(cgImage: cgImage, size: size)
+    }
+    
+    
+    func gaussianBlurred(inputRadius: Double = 2.0 ,context: CIContext = CIContext()) -> Image? {
+        guard let pixelBuffer = self.pixelBuffer(width: Int(size.width), height: Int(size.height)) else { return nil }
+        
+        let image = CIImage(cvPixelBuffer: pixelBuffer).applyingGaussianBlur(sigma: inputRadius)
+        
+        guard let cgImage = context.createCGImage(image, from: CGRect(origin: CGPoint.zero, size: size)) else { return nil }
+    
+        return NSImage(cgImage: cgImage, size: size)
+    }
+    
+    func noiseReduced(context: CIContext = CIContext()) -> Image? {
+        guard let pixelBuffer = self.pixelBuffer(width: Int(size.width), height: Int(size.height)) else { return nil }
+        
+        let image = CIImage(cvPixelBuffer: pixelBuffer).applyingFilter("CINoiseReduction")
+        
+        guard let cgImage = context.createCGImage(image, from: CGRect(origin: CGPoint.zero, size: size)) else { return nil }
+        
+        return NSImage(cgImage: cgImage, size: size)
+    }
+    
+    
 }
 
 #endif
