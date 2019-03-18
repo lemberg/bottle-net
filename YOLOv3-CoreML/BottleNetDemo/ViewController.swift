@@ -8,9 +8,8 @@ class ViewController: UIViewController {
   @IBOutlet weak var timeLabel: UILabel!
   @IBOutlet weak var debugImageView: UIImageView!
 
-//    var yolo:YOLO!
-    var bottleNet:resnet50!
-    var bottleDetector:DetectObjects!
+  let bottleNet: Resnet = Resnet()
+  let bottleDetector:DetectObjects = DetectObjects()
     
   var videoCapture: VideoCapture!
   var request: VNCoreMLRequest!
@@ -28,12 +27,9 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-//    yolo = YOLO()
-    bottleNet = resnet50()
-    bottleDetector = DetectObjects()
     
     timeLabel.text = ""
-
+    
     setUpBoundingBoxes()
     setUpCoreImage()
     setUpVision()
@@ -92,7 +88,7 @@ class ViewController: UIViewController {
   func setUpCamera() {
     videoCapture = VideoCapture()
     videoCapture.delegate = self
-    videoCapture.fps = 50
+    videoCapture.fps = 30
     videoCapture.setUp(sessionPreset: AVCaptureSession.Preset.vga640x480) { success in
       if success {
         // Add the video preview into the UI.
@@ -165,18 +161,13 @@ class ViewController: UIViewController {
                                               cropY: Int(prediction.rect.origin.y),
                                               cropWidth: Int(prediction.rect.width),
                                               cropHeight: Int(prediction.rect.height),
-                                              scaleWidth: 64,
-                                              scaleHeight: 64) else { return }
-        #if DEBUG
+                                              scaleWidth: Resnet.inputWidth,
+                                              scaleHeight: Resnet.inputHeight) else { return }
         
-        let ciImage = CIImage(cvPixelBuffer: resized)
-        
-        #endif
-        
-        if let wthatTheBottle = try? bottleNet.prediction(input1: resized) {
-            for value in 0..<wthatTheBottle.output1.count {
-                guard let confidence = wthatTheBottle.output1[value] as? Double, confidence > 0.8 else { continue }
-                let title = classifierLabes[value]
+        if let whatTheBottle = try? bottleNet.resnet.prediction(input1: resized) {
+            for index in 0..<whatTheBottle.output1.count {
+                guard let confidence = whatTheBottle.output1[index] as? Double, confidence > 0.8 else { continue }
+                let title = classifierLabes[index]
                 resultBottles.append((prediction, title))
             }
         }
