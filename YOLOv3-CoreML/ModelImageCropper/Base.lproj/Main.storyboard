@@ -759,32 +759,72 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a2m-ie-EaM">
+                                <rect key="frame" x="18" y="293" width="62" height="18"/>
+                                <buttonCell key="cell" type="check" title="Rotate" bezelStyle="regularSquare" imagePosition="left" inset="2" id="46j-eJ-yfQ">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gmx-kf-Gcj">
+                                <rect key="frame" x="18" y="259" width="59" height="18"/>
+                                <buttonCell key="cell" type="check" title="Mirror" bezelStyle="regularSquare" imagePosition="left" inset="2" id="JHi-Kd-7Uc">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kcg-ki-OR0">
+                                <rect key="frame" x="18" y="225" width="47" height="18"/>
+                                <buttonCell key="cell" type="check" title="Blur" bezelStyle="regularSquare" imagePosition="left" inset="2" id="avd-hx-HE7">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NoX-zs-Exp">
+                                <rect key="frame" x="18" y="191" width="104" height="18"/>
+                                <buttonCell key="cell" type="check" title="Reduce noise" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iMC-ym-ecU">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="bo4-Xu-5qj" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="22" id="0HS-fC-aSW"/>
+                            <constraint firstItem="Kcg-ki-OR0" firstAttribute="top" secondItem="gmx-kf-Gcj" secondAttribute="bottom" constant="20" id="2sk-yj-Rhv"/>
+                            <constraint firstItem="a2m-ie-EaM" firstAttribute="top" secondItem="QIx-bw-Xym" secondAttribute="bottom" constant="20" id="4Z0-qX-DcT"/>
                             <constraint firstAttribute="trailing" secondItem="W0i-xT-tpJ" secondAttribute="trailing" constant="20" id="54C-Tr-Ygt"/>
+                            <constraint firstItem="a2m-ie-EaM" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="8HN-pN-fLz"/>
+                            <constraint firstItem="NoX-zs-Exp" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="GeX-F1-0pr"/>
                             <constraint firstItem="bo4-Xu-5qj" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="Ggd-FZ-tMq"/>
                             <constraint firstAttribute="trailing" secondItem="fLh-uq-eeX" secondAttribute="trailing" constant="20" id="IGa-F2-9lp"/>
                             <constraint firstItem="QIx-bw-Xym" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="22" id="KBf-Yy-BAj"/>
                             <constraint firstAttribute="trailing" secondItem="w11-T7-Fpe" secondAttribute="trailing" constant="20" id="KeF-fJ-ihg"/>
                             <constraint firstItem="QIx-bw-Xym" firstAttribute="top" secondItem="bo4-Xu-5qj" secondAttribute="bottom" constant="20" id="MCe-5p-AuG"/>
+                            <constraint firstItem="Kcg-ki-OR0" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="PgE-oy-vNP"/>
                             <constraint firstAttribute="bottom" secondItem="fLh-uq-eeX" secondAttribute="bottom" constant="20" id="T1e-3b-et1"/>
                             <constraint firstItem="YMk-dE-i9r" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="bbv-pD-EhE"/>
+                            <constraint firstItem="gmx-kf-Gcj" firstAttribute="top" secondItem="a2m-ie-EaM" secondAttribute="bottom" constant="20" id="cbk-xZ-zUe"/>
                             <constraint firstItem="W0i-xT-tpJ" firstAttribute="top" secondItem="w11-T7-Fpe" secondAttribute="bottom" constant="20" id="cnd-NY-4yg"/>
                             <constraint firstItem="fLh-uq-eeX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="hP8-cn-NnB"/>
                             <constraint firstAttribute="trailing" secondItem="YMk-dE-i9r" secondAttribute="trailing" constant="20" id="kTV-O6-spD"/>
+                            <constraint firstItem="gmx-kf-Gcj" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="kxs-Ya-aZT"/>
                             <constraint firstItem="w11-T7-Fpe" firstAttribute="top" secondItem="YMk-dE-i9r" secondAttribute="bottom" constant="20" id="nDW-PT-72H"/>
+                            <constraint firstItem="NoX-zs-Exp" firstAttribute="top" secondItem="Kcg-ki-OR0" secondAttribute="bottom" constant="20" id="zEx-qQ-7RD"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blurCheckBox" destination="Kcg-ki-OR0" id="8KL-Ac-ZFj"/>
+                        <outlet property="mirrorCheckBox" destination="gmx-kf-Gcj" id="qbd-IC-e0b"/>
                         <outlet property="processCount" destination="YMk-dE-i9r" id="h4W-o5-lH7"/>
+                        <outlet property="reduceNoiseCheckBox" destination="NoX-zs-Exp" id="Zpt-iS-V9O"/>
+                        <outlet property="rotateCheckBox" destination="a2m-ie-EaM" id="gdK-Wx-qzB"/>
                         <outlet property="savesCount" destination="w11-T7-Fpe" id="fIi-0e-weY"/>
                         <outlet property="statusLabel" destination="W0i-xT-tpJ" id="z3k-Ue-bFS"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="790.5"/>
+            <point key="canvasLocation" x="75" y="801"/>
         </scene>
     </scenes>
 </document>

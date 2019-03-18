@@ -9,17 +9,21 @@
 import Cocoa
 
 class ViewController: NSViewController {
-
+    
     @IBOutlet weak var statusLabel: NSTextField!
     @IBOutlet weak var savesCount: NSTextField!
     @IBOutlet weak var processCount: NSTextField!
+    @IBOutlet weak var rotateCheckBox: NSButton!
+    @IBOutlet weak var mirrorCheckBox: NSButton!
+    @IBOutlet weak var blurCheckBox: NSButton!
+    @IBOutlet weak var reduceNoiseCheckBox: NSButton!
     
     let bottleDetector = DetectObjects()
     
     private let saveQueue: OperationQueue = {
         let value = OperationQueue()
         value.name = "com.file.save"
-        value.qualityOfService = .background
+        value.qualityOfService = .userInteractive
         return value
     }()
     
@@ -29,7 +33,7 @@ class ViewController: NSViewController {
         value.qualityOfService = .userInteractive
         return value
     }()
-
+    
     
     private let loadQueue: OperationQueue = {
         let value = OperationQueue()
@@ -37,7 +41,7 @@ class ViewController: NSViewController {
         value.qualityOfService = .utility
         return value
     }()
-
+    
     let context = CIContext()
     
     var imagesToCrop = 0 {
@@ -71,13 +75,13 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            // Update the view, if already loaded.
         }
     }
     
@@ -111,12 +115,12 @@ class ViewController: NSViewController {
         
         self.imagesToCrop = 0
         self.croppedImages = 0
-
+        
         typealias Pair = (URL, String)
         var pairs:[Pair] = []
-
+        
         let resultFolder = url.appendingPathComponent("Result")
-
+        
         cleanupDirectory(at: resultFolder)
         
         try? fm.contentsOfDirectory(atPath: url.path).forEach { (value) in
@@ -127,7 +131,7 @@ class ViewController: NSViewController {
         }
         
         createDirectory(at: resultFolder)
-
+        
         pairs.forEach { pair in
             self.cropImages(at: pair.0, folderName: pair.1)
         }
@@ -149,9 +153,9 @@ class ViewController: NSViewController {
         let resultsFolder = imagesFolder.deletingLastPathComponent().appendingPathComponent("Result/\(folderName)")
         cleanupDirectory(at: resultsFolder)
         createDirectory(at: resultsFolder)
-
+        
         while let imagePath = enumerator?.nextObject() as? URL {
-
+            
             loadQueue.addOperation {
                 autoreleasepool {
                     let imageName = imagePath.deletingPathExtension().lastPathComponent
@@ -162,9 +166,45 @@ class ViewController: NSViewController {
                         print("Start process image from \(imagePath.path)")
                         let bottleImages = self.cropBottles(from: image)
                         for (index, image) in bottleImages.enumerated() {
-                            let resultName = "\(imageName)_cropped_\(index).\(imageExt)"
-                            let resultPath = resultsFolder.appendingPathComponent(resultName)
+                            var resultName = "\(imageName)_cropped_\(index).\(imageExt)"
+                            var resultPath = resultsFolder.appendingPathComponent(resultName)
                             self.saveBottleImage(image, at: resultPath)
+                            
+                            if self.rotateCheckBox.state == .on {
+                                for i in 1..<4 {
+                                    let degree: CGFloat = CGFloat(90) * CGFloat(i)
+                                    if let resultImage = image.rotated(for: degree, using: self.context) {
+                                        resultName = "\(imageName)_cropped_rotated_\(degree)_\(index).\(imageExt)"
+                                        resultPath = resultsFolder.appendingPathComponent(resultName)
+                                        self.saveBottleImage(resultImage, at: resultPath)
+                                    }
+                                }
+                            }
+                            
+                            if self.mirrorCheckBox.state == .on {
+                                if let resultImage = image.mirored(context: self.context) {
+                                    resultName = "\(imageName)_cropped_mirrored_\(index).\(imageExt)"
+                                    resultPath = resultsFolder.appendingPathComponent(resultName)
+                                    self.saveBottleImage(resultImage, at: resultPath)
+                                }
+                            }
+                            
+                            if self.blurCheckBox.state == .on {
+                                if let resultImage = image.gaussianBlurred(context: self.context) {
+                                    resultName = "\(imageName)_cropped_blurred_\(index).\(imageExt)"
+                                    resultPath = resultsFolder.appendingPathComponent(resultName)
+                                    self.saveBottleImage(resultImage, at: resultPath)
+                                }
+                            }
+                            
+                            if self.reduceNoiseCheckBox.state == .on {
+                                if let resultImage = image.noiseReduced(context: self.context) {
+                                    resultName = "\(imageName)_cropped_reduced_noise_\(index).\(imageExt)"
+                                    resultPath = resultsFolder.appendingPathComponent(resultName)
+                                    self.saveBottleImage(resultImage, at: resultPath)
+                                }
+                            }
+                            
                         }
                     }
                 }
@@ -181,12 +221,12 @@ class ViewController: NSViewController {
     }
     
     private func cropBottles(from image: Image) -> [Image] {
-
+        
         guard let buffer = image.pixelBuffer(width: Int(image.size.width), height: Int(image.size.height)), let resizedBuffer = resizePixelBuffer(buffer, width: YOLO.inputWidth, height: YOLO.inputHeight) else {
             print("Could not create pixel for image \(image)")
             return []
         }
-
+        
         guard let frames = bottleDetector.predict(resizedBuffer) else {
             print("Frames not found on image \(image)")
             return []
