@@ -19,16 +19,25 @@ class ViewController: NSViewController {
     private let saveQueue: OperationQueue = {
         let value = OperationQueue()
         value.name = "com.file.save"
+        value.qualityOfService = .background
         return value
     }()
     
     private let cropQueueQueue: OperationQueue = {
         let value = OperationQueue()
         value.name = "com.file.crop"
-        value.maxConcurrentOperationCount = 5
+        value.qualityOfService = .userInteractive
         return value
     }()
+
     
+    private let loadQueue: OperationQueue = {
+        let value = OperationQueue()
+        value.name = "com.file.load"
+        value.qualityOfService = .utility
+        return value
+    }()
+
     let context = CIContext()
     
     var imagesToCrop = 0 {
@@ -43,7 +52,6 @@ class ViewController: NSViewController {
     }
     
     func updateUI() {
-        
         
         let update = {
             let title = "\(self.croppedImages) / \(self.imagesToCrop)"
@@ -143,18 +151,20 @@ class ViewController: NSViewController {
         createDirectory(at: resultsFolder)
 
         while let imagePath = enumerator?.nextObject() as? URL {
-            cropQueueQueue.addOperation {
 
+            loadQueue.addOperation {
                 autoreleasepool {
                     let imageName = imagePath.deletingPathExtension().lastPathComponent
                     let imageExt = imagePath.pathExtension
-                    
-                    let bottleImages = self.cropBottles(fromFileAt: imagePath)
-                    for (index, image) in bottleImages.enumerated() {
-                        let resultName = "\(imageName)_cropped_\(index).\(imageExt)"
-                        let resultPath = resultsFolder.appendingPathComponent(resultName)
-                        if let resultImage = image.scaled(to: NSSize(width: 64, height: 64), using: self.context) {
-                            self.saveBottleImage(resultImage, at: resultPath)
+                    guard let image = self.loadImage(fromFileAt: imagePath) else { return }
+                    print("Image loaded from \(imagePath.path)")
+                    self.cropQueueQueue.addOperation {
+                        print("Start process image from \(imagePath.path)")
+                        let bottleImages = self.cropBottles(from: image)
+                        for (index, image) in bottleImages.enumerated() {
+                            let resultName = "\(imageName)_cropped_\(index).\(imageExt)"
+                            let resultPath = resultsFolder.appendingPathComponent(resultName)
+                            self.saveBottleImage(image, at: resultPath)
                         }
                     }
                 }
@@ -162,24 +172,48 @@ class ViewController: NSViewController {
         }
     }
     
-    private func cropBottles(fromFileAt url: URL) -> [Image] {
-        
+    private func loadImage(fromFileAt url: URL) -> Image? {
         guard let image = Image(contentsOf: url) else {
             print("Could not load image at \(url.path)")
+            return nil
+        }
+        return image
+    }
+    
+    private func cropBottles(from image: Image) -> [Image] {
+
+        guard let buffer = image.pixelBuffer(width: Int(image.size.width), height: Int(image.size.height)), let resizedBuffer = resizePixelBuffer(buffer, width: YOLO.inputWidth, height: YOLO.inputHeight) else {
+            print("Could not create pixel for image \(image)")
+            return []
+        }
+
+        guard let frames = bottleDetector.predict(resizedBuffer) else {
+            print("Frames not found on image \(image)")
             return []
         }
         
-        guard let frames = bottleDetector.predict(image) else {
-            print("Frames not found on image at \(url.path)")
-            return []
-        }
         
         return frames.map { $0.rect }.compactMap { (rect) in
-
-            let originalFrame = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-            let realBottleFrame = bottleFrameFrom(originalFrame: originalFrame, bottleFrame: rect)
-            guard let bottleImage = image.cutArea(at: realBottleFrame) else { return nil }
-            return bottleImage
+            let x = max(0, Int(floor(rect.origin.x)))
+            let y = max(0, Int(floor(rect.origin.y)))
+            var w = Int(floor(rect.width))
+            var h = Int(floor(rect.height))
+            
+            if x + w > YOLO.inputWidth {
+                let diff = (x + w) - YOLO.inputWidth
+                w = w - diff
+            }
+            
+            if y + h > YOLO.inputWidth {
+                let diff = (y + h) - YOLO.inputHeight
+                h = h - diff
+            }
+            guard let cropped = resizePixelBuffer(resizedBuffer, cropX: x, cropY: y, cropWidth: w, cropHeight: h, scaleWidth: Resnet.inputWidth, scaleHeight: Resnet.inputHeight) else { return nil }
+            let ciimage = CIImage(cvImageBuffer: cropped)
+            let nsingerep = NSCIImageRep(ciImage: ciimage)
+            let nsimage = NSImage(size: NSSize(width: Resnet.inputWidth, height: Resnet.inputHeight))
+            nsimage.addRepresentation(nsingerep)
+            return nsimage
         }
     }
     
@@ -205,6 +239,8 @@ class ViewController: NSViewController {
     }
     
     func saveBottleImage(_ image: Image, at url: URL) {
+        print("Image is ready to save at \(url.path)")
+        updateUI()
         saveQueue.addOperation {
             if let data = image.jpegRepresentation {
                 if self.fm.createFile(atPath: url.path, contents: data, attributes: nil) {

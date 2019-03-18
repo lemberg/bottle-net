@@ -72,25 +72,34 @@ class DetectObjects {
     
     func predict(_ pixelBuffer: CVPixelBuffer) -> [YOLO.Prediction]? {
         
+        let width = CVPixelBufferGetWidth(pixelBuffer)
+        let height = CVPixelBufferGetHeight(pixelBuffer)
+        
+        var bufferForPrediction = pixelBuffer
+        if width != YOLO.inputWidth || height != YOLO.inputHeight {
+            guard let resized =  resizePixelBuffer(pixelBuffer, width: YOLO.inputWidth, height: YOLO.inputHeight) else { return nil }
+            bufferForPrediction = resized
+        }
+        
         // Resize the input with Core Image to 416x416.
-        guard let resizedPixelBuffer = resizedPixelBuffer else { return nil }
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let sx = CGFloat(YOLO.inputWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
-        let sy = CGFloat(YOLO.inputHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
-        let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
-        let scaledImage = ciImage.transformed(by: scaleTransform)
-        ciContext.render(scaledImage, to: resizedPixelBuffer)
+//        guard let resizedPixelBuffer = resizedPixelBuffer else { return nil }
+//        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+//        let sx = CGFloat(YOLO.inputWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
+//        let sy = CGFloat(YOLO.inputHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
+//        let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
+//        let scaledImage = ciImage.transformed(by: scaleTransform)
+//        ciContext.render(scaledImage, to: resizedPixelBuffer)
         
         // This is an alternative way to resize the image (using vImage):
-        //if let resizedPixelBuffer = resizePixelBuffer(pixelBuffer,
-        //                                              width: YOLO.inputWidth,
-        //                                              height: YOLO.inputHeight)
+//        if let resizedPixelBuffer = resizePixelBuffer(pixelBuffer,
+//                                                      width: YOLO.inputWidth,
+//                                                      height: YOLO.inputHeight)
         
         // Resize the input to 416x416 and give it to our model.
         
         
 //        return try? yolo.predict(image: resizedPixelBuffer)
-        if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer), let index = labels.index(of: "bottle") {
+        if let boundingBoxes = try? yolo.predict(image: bufferForPrediction), let index = labels.index(of: "bottle") {
             return boundingBoxes.filter({ (p) -> Bool in
                 return p.classIndex == index
             })
