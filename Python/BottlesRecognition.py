@@ -188,12 +188,21 @@ class BottlesRecognizer:
 
         return model
 
-    def trainResNet50(self):
+    def trainResNet50(self, should_save_weights = False):
         model = self.ResNet50(input_shape=(64, 64, 3), classes=5)
 
+        self.train_model(model, should_save_weights=should_save_weights)
+
+        return
+
+    def train_existing_model(self, should_save_weights = False):
+        model = load_model("resnet-50.h5")
+        self.train_model(model, should_save_weights=should_save_weights)
+
+    def train_model(self, model, should_save_weights = False):
         optimizer = optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 
-        model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+        model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
         X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes = utils.load_datasets()
 
         # Normalize image vectors
@@ -210,7 +219,7 @@ class BottlesRecognizer:
         print ("X_test shape: " + str(X_test.shape))
         print ("Y_test shape: " + str(Y_test.shape))
 
-        model.fit(X_train, Y_train, epochs=6, batch_size=32)
+        model.fit(X_train, Y_train, epochs=4, batch_size=32)
 
         preds = model.evaluate(X_test, Y_test)
         print ("Loss = " + str(preds[0]))
@@ -218,7 +227,27 @@ class BottlesRecognizer:
 
         model.save("resnet-50.h5")
 
-        return
+        if should_save_weights:
+            model.save_weights("resnet-50.weights.h5")
+
+    def testModel(self):
+        model = load_model("resnet-50_100.h5")
+
+        X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes = utils.load_datasets()
+        X_train = X_train_orig / 255.
+        X_test = X_test_orig / 255.
+
+        Y_train = utils.convert_to_one_hot(Y_train_orig, 5).T
+        Y_test = utils.convert_to_one_hot(Y_test_orig, 5).T
+
+        predsTest = model.evaluate(X_test, Y_test)
+        predsTrain = model.evaluate(X_train, Y_train)
+
+        print ("Test Loss = " + str(predsTest[0]))
+        print ("Test Accuracy = " + str(predsTest[1]))
+        print ("Train Loss = " + str(predsTrain[0]))
+        print ("Train Accuracy = " + str(predsTrain[1]))
 
 net = BottlesRecognizer()
-net.trainResNet50()
+# net.testModel()
+net.train_existing_model()
