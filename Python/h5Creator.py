@@ -16,7 +16,7 @@ def createh5(pathUrl, name):
         unique_indexes.append(int(dir))
         completeDirPath = pathUrl + dir
         dirObjects = os.listdir(completeDirPath)
-        dirObjects = [f for f in dirObjects if not f.startswith('.')]
+        dirObjects = [f for f in dirObjects if not f.startswith('.') and 'blurred' not in f and 'rotated' not in f]
 
         for imagePath in dirObjects:
             completeImagePath = pathUrl + dir + "/" + imagePath
@@ -32,10 +32,10 @@ def createh5(pathUrl, name):
     permutation = list(np.random.permutation(m))
 
     imagesNumpyArray = imagesNumpyArray[permutation, :, :, :]
-    xDataSet = f.create_dataset(name+"_set_x", data=imagesNumpyArray, dtype='i8')
+    xDataSet = f.create_dataset(name+"_set_x", data=imagesNumpyArray, dtype='Int8')
 
     indexesNumpyArray = np.asarray(indexes_array)[permutation]
-    yDataSet = f.create_dataset(name+"_set_y", data=indexesNumpyArray)
+    yDataSet = f.create_dataset(name+"_set_y", data=indexesNumpyArray, dtype='Int8')
 
     unique_indexes_numpy_array = np.asarray(unique_indexes)
     classes_data_set = f.create_dataset("classes", data=unique_indexes_numpy_array)
