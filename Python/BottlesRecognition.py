@@ -195,11 +195,11 @@ class BottlesRecognizer:
 
         return
 
-    def train_existing_model(self, should_save_weights = False):
+    def train_existing_model(self, should_save_weights=False):
         model = load_model("resnet-50.h5")
         self.train_model(model, should_save_weights=should_save_weights)
 
-    def train_model(self, model, should_save_weights = False):
+    def train_model(self, model, should_save_weights=False):
         optimizer = optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 
         model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
