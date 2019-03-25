@@ -16,8 +16,12 @@ func resizePixelBuffer(_ srcPixelBuffer: CVPixelBuffer,
   }
   let srcBytesPerRow = CVPixelBufferGetBytesPerRow(srcPixelBuffer)
   let offset = cropY*srcBytesPerRow + cropX*4
+  
+  let cropMaxY = cropY + cropHeight
+  let bufferHeight = CVPixelBufferGetHeight(srcPixelBuffer)
+  let height = cropMaxY > bufferHeight ? cropHeight - (cropMaxY - bufferHeight) : cropHeight
   var srcBuffer = vImage_Buffer(data: srcData.advanced(by: offset),
-                                height: vImagePixelCount(cropHeight),
+                                height: vImagePixelCount(height),
                                 width: vImagePixelCount(cropWidth),
                                 rowBytes: srcBytesPerRow)
 

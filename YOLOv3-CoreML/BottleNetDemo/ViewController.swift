@@ -72,17 +72,17 @@ class ViewController: UIViewController {
   }
 
   func setUpVision() {
-//    guard let visionModel = try? VNCoreMLModel(for: yolo.model.model) else {
-//      print("Error: could not create Vision model")
-//      return
-//    }
-//
-//    request = VNCoreMLRequest(model: visionModel, completionHandler: visionRequestDidComplete)
-//
-//    // NOTE: If you choose another crop/scale option, then you must also
-//    // change how the BoundingBox objects get scaled when they are drawn.
-//    // Currently they assume the full input image is used.
-//    request.imageCropAndScaleOption = .scaleFill
+    guard let visionModel = try? VNCoreMLModel(for: YOLO().model.model) else {
+      print("Error: could not create Vision model")
+      return
+    }
+
+    request = VNCoreMLRequest(model: visionModel, completionHandler: visionRequestDidComplete)
+
+    // NOTE: If you choose another crop/scale option, then you must also
+    // change how the BoundingBox objects get scaled when they are drawn.
+    // Currently they assume the full input image is used.
+    request.imageCropAndScaleOption = .scaleFill
   }
 
   func setUpCamera() {
@@ -151,22 +151,27 @@ class ViewController: UIViewController {
     }
     
     let bottleFrames = bottleDetector.predict(pixelBuffer)
-
     var resultBottles = [BottleResultPair]()
     
     bottleFrames?.forEach({ (prediction) in
-        
+      
+        let x = prediction.rect.origin.x >= 0 ? prediction.rect.origin.x : 0
+        let y = prediction.rect.origin.y >= 0 ? prediction.rect.origin.y : 0
+      
         guard let resized = resizePixelBuffer(resizedPixelBuffer,
-                                              cropX: Int(prediction.rect.origin.x),
-                                              cropY: Int(prediction.rect.origin.y),
+                                              cropX: Int(x),
+                                              cropY: Int(y),
                                               cropWidth: Int(prediction.rect.width),
                                               cropHeight: Int(prediction.rect.height),
                                               scaleWidth: Resnet.inputWidth,
                                               scaleHeight: Resnet.inputHeight) else { return }
-        
+      let image = UIImage(ciImage: CIImage(cvPixelBuffer: resized))
+      DispatchQueue.main.async {
+        self.debugImageView.image = image
+      }
         if let whatTheBottle = try? bottleNet.resnet.prediction(input1: resized) {
             for index in 0..<whatTheBottle.output1.count {
-                guard let confidence = whatTheBottle.output1[index] as? Double, confidence > 0.8 else { continue }
+                guard let confidence = whatTheBottle.output1[index] as? Double, confidence > 0.9 else { continue }
                 let title = classifierLabes[index]
                 resultBottles.append((prediction, title))
             }
@@ -256,8 +261,8 @@ class ViewController: UIViewController {
         // on the video preview, which is as wide as the screen and has a 4:3
         // aspect ratio. The video preview also may be letterboxed at the top
         // and bottom.
-        let width = view.bounds.width
-        let height = width * 4 / 3
+        let width = videoPreview.bounds.width
+        let height = videoPreview.bounds.height
         let scaleX = width / CGFloat(YOLO.inputWidth)
         let scaleY = height / CGFloat(YOLO.inputHeight)
         let top = (view.bounds.height - height) / 2

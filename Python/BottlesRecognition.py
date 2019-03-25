@@ -102,23 +102,23 @@ class BottlesRecognizer:
         X_shortcut = X
 
         X = Conv2D(F1, (1, 1), strides=(s, s), padding='valid', name=conv_name_base + '2a',
-                   kernel_initializer=glorot_uniform(seed=0))(X)
+                   kernel_initializer=glorot_uniform())(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2a')(X)
         X = Activation('relu')(X)
 
 
 
         X = Conv2D(F2, (f, f), strides=(1, 1), padding='same', name=conv_name_base + '2b',
-                   kernel_initializer=glorot_uniform(seed=0))(X)
+                   kernel_initializer=glorot_uniform())(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2b')(X)
         X = Activation('relu')(X)
 
         X = Conv2D(F3, (1, 1), strides=(1, 1), padding='valid', name=conv_name_base + '2c',
-                   kernel_initializer=glorot_uniform(seed=0))(X)
+                   kernel_initializer=glorot_uniform())(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2c')(X)
 
         X_shortcut = Conv2D(F3, (1, 1), strides=(s, s), padding='valid', name=conv_name_base + '1',
-                            kernel_initializer=glorot_uniform(seed=0))(X_shortcut)
+                            kernel_initializer=glorot_uniform())(X_shortcut)
         X_shortcut = BatchNormalization(axis=3, name=bn_name_base + '1')(X_shortcut)
 
         X = Add()([X, X_shortcut])
@@ -149,7 +149,7 @@ class BottlesRecognizer:
         X = ZeroPadding2D((3, 3))(X_input)
 
         # Stage 1
-        X = Conv2D(64, (7, 7), strides=(2, 2), name='conv1', kernel_initializer=glorot_uniform(seed=0))(X)
+        X = Conv2D(64, (7, 7), strides=(2, 2), name='conv1', kernel_initializer=glorot_uniform())(X)
         X = BatchNormalization(axis=3, name='bn_conv1')(X)
         X = Activation('relu')(X)
         X = MaxPooling2D((3, 3), strides=(2, 2))(X)
@@ -181,7 +181,7 @@ class BottlesRecognizer:
 
         # output layer
         X = Flatten()(X)
-        X = Dense(classes, activation='softmax', name='fc' + str(classes), kernel_initializer=glorot_uniform(seed=0))(X)
+        X = Dense(classes, activation='softmax', name='fc' + str(classes), kernel_initializer=glorot_uniform())(X)
 
         # Create model
         model = Model(inputs=X_input, outputs=X, name='ResNet50')
@@ -219,7 +219,7 @@ class BottlesRecognizer:
         print ("X_test shape: " + str(X_test.shape))
         print ("Y_test shape: " + str(Y_test.shape))
 
-        model.fit(X_train, Y_train, epochs=10, batch_size=32)
+        model.fit(X_train, Y_train, epochs=1, batch_size=32)
 
         preds = model.evaluate(X_test, Y_test)
         print ("Loss = " + str(preds[0]))
