@@ -21,9 +21,17 @@ class YOLO {
     let rect: CGRect
   }
 
-  let model = YOLOv3()
+  let configuration: MLModelConfiguration = {
+    let conf = MLModelConfiguration()
+    conf.computeUnits = .all
+    return conf
+  }()
+  
+  let model: YOLOv3!
 
-  public init() { }
+  public init() {
+    model = try! YOLOv3(configuration: configuration)
+  }
 
   public func predict(image: CVPixelBuffer) throws -> [Prediction] {
     if let output = try? model.prediction(input1: image) {

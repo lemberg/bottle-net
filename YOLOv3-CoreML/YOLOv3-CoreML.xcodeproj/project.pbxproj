@@ -18,6 +18,9 @@
 		7BC25FA71EF1B7D1002ECBBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BC25FA51EF1B7D1002ECBBA /* Main.storyboard */; };
 		7BC25FA91EF1B7D1002ECBBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BC25FA81EF1B7D1002ECBBA /* Assets.xcassets */; };
 		7BC25FB41EF1CEB0002ECBBA /* YOLOv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */; };
+		83035BB52249298700C96666 /* Array+Difference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83035BB42249298700C96666 /* Array+Difference.swift */; };
+		83035BB62249299600C96666 /* Array+Difference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83035BB42249298700C96666 /* Array+Difference.swift */; };
+		8345262A22490DEB00A504D2 /* BottlesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8345262922490DEB00A504D2 /* BottlesListTableViewController.swift */; };
 		8386D19A223BB2D7007072C9 /* resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8386D199223BB2D7007072C9 /* resnet50.mlmodel */; };
 		8386D19B223BB2D7007072C9 /* resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8386D199223BB2D7007072C9 /* resnet50.mlmodel */; };
 		CE02CFA82239378400F32E67 /* DetectObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02CFA6223936FA00F32E67 /* DetectObjects.swift */; };
@@ -52,6 +55,8 @@
 		7BC25FAD1EF1B7D1002ECBBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3.mlmodel; sourceTree = "<group>"; };
 		7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		83035BB42249298700C96666 /* Array+Difference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Difference.swift"; sourceTree = "<group>"; };
+		8345262922490DEB00A504D2 /* BottlesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottlesListTableViewController.swift; sourceTree = "<group>"; };
 		8386D199223BB2D7007072C9 /* resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = resnet50.mlmodel; sourceTree = "<group>"; };
 		CE02CFA6223936FA00F32E67 /* DetectObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectObjects.swift; sourceTree = "<group>"; };
 		CE79651222391156001CA4CE /* ModelImageCropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModelImageCropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +116,7 @@
 				7BC25FA51EF1B7D1002ECBBA /* Main.storyboard */,
 				7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */,
 				7BC25FA31EF1B7D1002ECBBA /* ViewController.swift */,
+				8345262922490DEB00A504D2 /* BottlesListTableViewController.swift */,
 			);
 			path = BottleNetDemo;
 			sourceTree = "<group>";
@@ -141,6 +147,7 @@
 				CE796529223914EC001CA4CE /* OSDefines.swift */,
 				CE02CFA6223936FA00F32E67 /* DetectObjects.swift */,
 				CEB55DAD223FC84E00196857 /* Resnet.swift */,
+				83035BB42249298700C96666 /* Array+Difference.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -260,10 +267,12 @@
 				7BC25FB41EF1CEB0002ECBBA /* YOLOv3.mlmodel in Sources */,
 				372CB265209C9B2600F501E3 /* BoundingBox.swift in Sources */,
 				372CB266209C9B2600F501E3 /* Helpers.swift in Sources */,
+				8345262A22490DEB00A504D2 /* BottlesListTableViewController.swift in Sources */,
 				8386D19A223BB2D7007072C9 /* resnet50.mlmodel in Sources */,
 				372CB262209C9B0F00F501E3 /* AppDelegate.swift in Sources */,
 				7BA1C6D21EF2827800BB25EF /* UIImage+CVPixelBuffer.swift in Sources */,
 				7BC25FA41EF1B7D1002ECBBA /* ViewController.swift in Sources */,
+				83035BB52249298700C96666 /* Array+Difference.swift in Sources */,
 				7BA1C6D81EF2871600BB25EF /* YOLO.swift in Sources */,
 				CEB55DAE223FC84E00196857 /* Resnet.swift in Sources */,
 			);
@@ -273,6 +282,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83035BB62249299600C96666 /* Array+Difference.swift in Sources */,
 				CEB55DB0223FCD2700196857 /* Resnet.swift in Sources */,
 				CE79652522391291001CA4CE /* YOLOv3.mlmodel in Sources */,
 				CE79651722391156001CA4CE /* ViewController.swift in Sources */,
@@ -431,6 +441,7 @@
 				DEVELOPMENT_TEAM = J7LBYY3B34;
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = BottleNetDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.uk.lembergYOLOv3-CoreML";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -450,6 +461,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J7LBYY3B34;
 				INFOPLIST_FILE = BottleNetDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "co.uk.lembergYOLOv3-CoreML";
 				PRODUCT_NAME = "$(TARGET_NAME)";

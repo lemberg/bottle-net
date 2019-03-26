@@ -2,6 +2,10 @@ import UIKit
 import Vision
 import AVFoundation
 
+protocol BottleCaptureDelegate: class {
+  func available(bottles: [String])
+}
+
 class ViewController: UIViewController {
     
   @IBOutlet weak var videoPreview: UIView!
@@ -24,6 +28,14 @@ class ViewController: UIViewController {
   var framesDone = 0
   var frameCapturingStartTime = CACurrentMediaTime()
   let semaphore = DispatchSemaphore(value: 2)
+  
+  var shouldShowRectangles = true
+  var shouldPostBottles = true
+  let timeoutInterval:TimeInterval = 0.5
+  
+  var timer: Timer!
+  
+  weak var bottleCaptureDelegate: BottleCaptureDelegate?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,12 +48,25 @@ class ViewController: UIViewController {
     setUpCamera()
 
     frameCapturingStartTime = CACurrentMediaTime()
+    
+    timer = Timer.scheduledTimer(withTimeInterval: timeoutInterval, repeats: true, block: { (timer) in
+      self.shouldPostBottles = true
+    })
   }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     print(#function)
   }
+  
+  // MARK: - Navigation
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let vc = segue.destination as? BottleCaptureDelegate {
+      self.bottleCaptureDelegate = vc
+    }
+  }
+  
 
   // MARK: - Initialization
 
@@ -152,6 +177,7 @@ class ViewController: UIViewController {
     
     let bottleFrames = bottleDetector.predict(pixelBuffer)
     var resultBottles = [BottleResultPair]()
+    var resultTitles = [String]()
     
     bottleFrames?.forEach({ (prediction) in
       
@@ -165,15 +191,14 @@ class ViewController: UIViewController {
                                               cropHeight: Int(prediction.rect.height),
                                               scaleWidth: Resnet.inputWidth,
                                               scaleHeight: Resnet.inputHeight) else { return }
-      let image = UIImage(ciImage: CIImage(cvPixelBuffer: resized))
-      DispatchQueue.main.async {
-        self.debugImageView.image = image
-      }
+      
+      
         if let whatTheBottle = try? bottleNet.resnet.prediction(input1: resized) {
             for index in 0..<whatTheBottle.output1.count {
                 guard let confidence = whatTheBottle.output1[index] as? Double, confidence > 0.9 else { continue }
                 let title = classifierLabes[index]
                 resultBottles.append((prediction, title))
+                resultTitles.append(title)
             }
         }
     })
@@ -200,6 +225,12 @@ class ViewController: UIViewController {
 //          self.semaphore.signal()
     let elapsed = CACurrentMediaTime() - startTime
     showOnMainThread(resultBottles, elapsed)
+    DispatchQueue.main.async {
+      if self.shouldPostBottles {
+        self.bottleCaptureDelegate?.available(bottles: resultTitles)
+        self.shouldPostBottles = false
+      }
+    }
   }
 
   func predictUsingVision(pixelBuffer: CVPixelBuffer) {
@@ -229,8 +260,9 @@ class ViewController: UIViewController {
       //var debugImage: CGImage?
       //VTCreateCGImageFromCVPixelBuffer(resizedPixelBuffer, nil, &debugImage)
       //self.debugImageView.image = UIImage(cgImage: debugImage!)
-
-      self.show(predictions: boundingBoxes)
+      if self.shouldShowRectangles {
+        self.show(predictions: boundingBoxes)
+      }
 
       let fps = self.measureFPS()
       self.timeLabel.text = String(format: "Elapsed %.5f seconds - %.2f FPS", elapsed, fps)

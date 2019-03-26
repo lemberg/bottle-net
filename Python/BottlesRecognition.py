@@ -219,7 +219,7 @@ class BottlesRecognizer:
         print ("X_test shape: " + str(X_test.shape))
         print ("Y_test shape: " + str(Y_test.shape))
 
-        model.fit(X_train, Y_train, epochs=1, batch_size=32)
+        model.fit(X_train, Y_train, epochs=5, batch_size=32)
 
         preds = model.evaluate(X_test, Y_test)
         print ("Loss = " + str(preds[0]))
