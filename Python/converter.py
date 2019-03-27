@@ -3,7 +3,7 @@
 
 import coremltools
 
-coreml_model = coremltools.converters.keras.convert('resnet-50.h5',
+coreml_model = coremltools.converters.keras.convert('/Users/olehkurnenkov/Bottles/resnet-50_new.h5',
                                                     input_names='input1',
                                                     image_input_names='input1',
                                                     output_names=['output1'],
