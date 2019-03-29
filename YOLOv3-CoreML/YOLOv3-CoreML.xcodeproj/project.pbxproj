@@ -20,6 +20,8 @@
 		7BC25FB41EF1CEB0002ECBBA /* YOLOv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */; };
 		83035BB52249298700C96666 /* Array+Difference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83035BB42249298700C96666 /* Array+Difference.swift */; };
 		83035BB62249299600C96666 /* Array+Difference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83035BB42249298700C96666 /* Array+Difference.swift */; };
+		83035BB8224D188600C96666 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 83035BB7224D188600C96666 /* Settings.bundle */; };
+		83035BBA224E17EC00C96666 /* UserDefault+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83035BB9224E17EC00C96666 /* UserDefault+Settings.swift */; };
 		8345262A22490DEB00A504D2 /* BottlesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8345262922490DEB00A504D2 /* BottlesListTableViewController.swift */; };
 		8386D19A223BB2D7007072C9 /* resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8386D199223BB2D7007072C9 /* resnet50.mlmodel */; };
 		8386D19B223BB2D7007072C9 /* resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8386D199223BB2D7007072C9 /* resnet50.mlmodel */; };
@@ -56,6 +58,8 @@
 		7BC25FB31EF1CEAE002ECBBA /* YOLOv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3.mlmodel; sourceTree = "<group>"; };
 		7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		83035BB42249298700C96666 /* Array+Difference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Difference.swift"; sourceTree = "<group>"; };
+		83035BB7224D188600C96666 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		83035BB9224E17EC00C96666 /* UserDefault+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Settings.swift"; sourceTree = "<group>"; };
 		8345262922490DEB00A504D2 /* BottlesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottlesListTableViewController.swift; sourceTree = "<group>"; };
 		8386D199223BB2D7007072C9 /* resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = resnet50.mlmodel; sourceTree = "<group>"; };
 		CE02CFA6223936FA00F32E67 /* DetectObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectObjects.swift; sourceTree = "<group>"; };
@@ -117,6 +121,8 @@
 				7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */,
 				7BC25FA31EF1B7D1002ECBBA /* ViewController.swift */,
 				8345262922490DEB00A504D2 /* BottlesListTableViewController.swift */,
+				83035BB7224D188600C96666 /* Settings.bundle */,
+				83035BB9224E17EC00C96666 /* UserDefault+Settings.swift */,
 			);
 			path = BottleNetDemo;
 			sourceTree = "<group>";
@@ -240,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BC25FA91EF1B7D1002ECBBA /* Assets.xcassets in Resources */,
+				83035BB8224D188600C96666 /* Settings.bundle in Resources */,
 				7BC25FA71EF1B7D1002ECBBA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +272,7 @@
 				7BA1C6D01EF27DA000BB25EF /* VideoCapture.swift in Sources */,
 				7BA1C6DA1EF2B30200BB25EF /* CVPixelBuffer+Helpers.swift in Sources */,
 				7BC25FB41EF1CEB0002ECBBA /* YOLOv3.mlmodel in Sources */,
+				83035BBA224E17EC00C96666 /* UserDefault+Settings.swift in Sources */,
 				372CB265209C9B2600F501E3 /* BoundingBox.swift in Sources */,
 				372CB266209C9B2600F501E3 /* Helpers.swift in Sources */,
 				8345262A22490DEB00A504D2 /* BottlesListTableViewController.swift in Sources */,

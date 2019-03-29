@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cau-LW-nDZ" userLabel="Results">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cau-LW-nDZ" userLabel="Results">
                                 <rect key="frame" x="0.0" y="380" width="896" height="34"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elapsed time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nv7-zv-Hv7">
@@ -142,10 +142,18 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tmc-NB-dkf">
+                                                            <rect key="frame" x="82" y="20" width="44" height="20"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="Vwk-zx-gvX" secondAttribute="trailing" constant="2" id="JXd-5G-eUM"/>
+                                                        <constraint firstItem="tmc-NB-dkf" firstAttribute="centerY" secondItem="BUM-iL-R8l" secondAttribute="centerY" id="PcM-EE-RDJ"/>
+                                                        <constraint firstAttribute="trailing" secondItem="tmc-NB-dkf" secondAttribute="trailing" id="arN-ct-ESu"/>
                                                         <constraint firstItem="Vwk-zx-gvX" firstAttribute="leading" secondItem="BUM-iL-R8l" secondAttribute="leading" constant="16" id="dnf-vR-cK6"/>
                                                         <constraint firstAttribute="bottom" secondItem="Vwk-zx-gvX" secondAttribute="bottom" constant="8" id="psO-GC-ZdE"/>
                                                         <constraint firstItem="z0E-fu-qdG" firstAttribute="leading" secondItem="BUM-iL-R8l" secondAttribute="leading" constant="16" id="rqj-SL-lF0"/>
@@ -189,13 +197,21 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mr-pC-3tb">
+                                                            <rect key="frame" x="82" y="20" width="44" height="20"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="HVS-5e-NGk" firstAttribute="top" secondItem="8uM-cl-2pb" secondAttribute="top" constant="8" id="6wo-L5-AUR"/>
                                                         <constraint firstItem="HVS-5e-NGk" firstAttribute="leading" secondItem="8uM-cl-2pb" secondAttribute="leading" constant="16" id="Ab6-Sn-ifi"/>
                                                         <constraint firstItem="KNe-1H-hNJ" firstAttribute="leading" secondItem="8uM-cl-2pb" secondAttribute="leading" constant="16" id="RMA-h8-h8o"/>
+                                                        <constraint firstItem="9mr-pC-3tb" firstAttribute="centerY" secondItem="8uM-cl-2pb" secondAttribute="centerY" id="Rla-ro-7tz"/>
                                                         <constraint firstAttribute="trailing" secondItem="KNe-1H-hNJ" secondAttribute="trailing" constant="2" id="YzU-rH-Ook"/>
+                                                        <constraint firstAttribute="trailing" secondItem="9mr-pC-3tb" secondAttribute="trailing" id="ZNs-B4-hEN"/>
                                                         <constraint firstAttribute="bottom" secondItem="KNe-1H-hNJ" secondAttribute="bottom" constant="8" id="f0a-Cg-1ez"/>
                                                     </constraints>
                                                 </view>
@@ -236,10 +252,18 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Taken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYY-OP-asw">
+                                                            <rect key="frame" x="80" y="20" width="44" height="20"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="NYY-OP-asw" secondAttribute="trailing" id="E8g-Kz-ZE9"/>
                                                         <constraint firstItem="OpO-YR-AK9" firstAttribute="leading" secondItem="PYu-l8-MDJ" secondAttribute="leading" constant="16" id="MWz-IK-Mr8"/>
+                                                        <constraint firstItem="NYY-OP-asw" firstAttribute="centerY" secondItem="PYu-l8-MDJ" secondAttribute="centerY" id="TEd-h5-lHH"/>
                                                         <constraint firstAttribute="trailing" secondItem="OpO-YR-AK9" secondAttribute="trailing" constant="2" id="ViU-nM-SwF"/>
                                                         <constraint firstAttribute="bottom" secondItem="OpO-YR-AK9" secondAttribute="bottom" constant="8" id="ddl-Fl-RI3"/>
                                                         <constraint firstItem="kNY-d1-YBd" firstAttribute="leading" secondItem="PYu-l8-MDJ" secondAttribute="leading" constant="16" id="gL7-sS-k1v"/>
@@ -283,6 +307,12 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8kh-RV-6or">
+                                                            <rect key="frame" x="82" y="20" width="44" height="20"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -291,6 +321,8 @@
                                                         <constraint firstAttribute="trailing" secondItem="jbs-eV-6xx" secondAttribute="trailing" constant="2" id="YOf-0b-mKX"/>
                                                         <constraint firstItem="jbs-eV-6xx" firstAttribute="leading" secondItem="e0f-sC-pgS" secondAttribute="leading" constant="16" id="oKH-rh-FOz"/>
                                                         <constraint firstAttribute="bottom" secondItem="jbs-eV-6xx" secondAttribute="bottom" constant="8" id="qEU-L9-5lM"/>
+                                                        <constraint firstItem="8kh-RV-6or" firstAttribute="centerY" secondItem="e0f-sC-pgS" secondAttribute="centerY" id="tkA-eB-zto"/>
+                                                        <constraint firstAttribute="trailing" secondItem="8kh-RV-6or" secondAttribute="trailing" id="wV8-g7-G1g"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -327,6 +359,10 @@
                         <outletCollection property="priceLabels" destination="KNe-1H-hNJ" collectionClass="NSMutableArray" id="cwS-fH-ICj"/>
                         <outletCollection property="priceLabels" destination="OpO-YR-AK9" collectionClass="NSMutableArray" id="Pb3-s1-ELt"/>
                         <outletCollection property="priceLabels" destination="jbs-eV-6xx" collectionClass="NSMutableArray" id="XUq-LY-C21"/>
+                        <outletCollection property="takenLabels" destination="tmc-NB-dkf" collectionClass="NSMutableArray" id="ymb-Jb-FpZ"/>
+                        <outletCollection property="takenLabels" destination="9mr-pC-3tb" collectionClass="NSMutableArray" id="NsI-Kc-F58"/>
+                        <outletCollection property="takenLabels" destination="NYY-OP-asw" collectionClass="NSMutableArray" id="wK9-CA-DFa"/>
+                        <outletCollection property="takenLabels" destination="8kh-RV-6or" collectionClass="NSMutableArray" id="aqR-vU-pFv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qoW-B5-dro" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -29,7 +29,7 @@ class ViewController: UIViewController {
   var frameCapturingStartTime = CACurrentMediaTime()
   let semaphore = DispatchSemaphore(value: 2)
   
-  var shouldShowRectangles = true
+  var shouldShowRectangles = UserDefaults.standard.shouldShowRectangles
   var shouldPostBottles = true
   let timeoutInterval:TimeInterval = 0.5
   
@@ -52,8 +52,23 @@ class ViewController: UIViewController {
     timer = Timer.scheduledTimer(withTimeInterval: timeoutInterval, repeats: true, block: { (timer) in
       self.shouldPostBottles = true
     })
+    
+    NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: OperationQueue.main) { (notification) in
+      self.shouldShowRectangles = UserDefaults.standard.shouldShowRectangles
+      if !self.shouldShowRectangles {
+        for box in self.boundingBoxes {
+          box.hide()
+        }
+      }
+    }
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    shouldShowRectangles = UserDefaults.standard.shouldShowRectangles
+  }
+
+  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     print(#function)
